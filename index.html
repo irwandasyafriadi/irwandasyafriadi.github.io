@@ -2,10 +2,14 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Irwanda Syafriadi — git log</title>
 <meta name="description" content="Portofolio Irwanda Syafriadi, mahasiswa D3 Sistem Informasi. Perjalanan belajar dalam bentuk commit history.">
 <meta name="theme-color" content="#0b0d0c">
+<meta property="og:title" content="Irwanda Syafriadi — git log">
+<meta property="og:description" content="Portofolio mahasiswa D3 Sistem Informasi.">
+<meta property="og:url" content="https://irwanda.dev">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d0c'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%234ade80'%3Ei.%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
@@ -13,166 +17,272 @@
 :root{
 --bg:#f4f1ea;--surface:#fffdf8;--fg:#141613;--muted:#5d625b;--line:#d9d4c7;
 --accent:#1f7a4d;--accent-2:#c2410c;--accent-3:#4338ca;--chip:#ebe6da;
+--g0:#e6e1d4;--g1:#b7dcc4;--g2:#6fbf8e;--g3:#2f9a5f;--g4:#1f7a4d;
 --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--sans:"Space Grotesk",system-ui,sans-serif;
 }
 :root[data-theme="dark"]{
 --bg:#0b0d0c;--surface:#121513;--fg:#e8ece6;--muted:#8d968c;--line:#232a25;
 --accent:#4ade80;--accent-2:#fb923c;--accent-3:#a5b4fc;--chip:#1a1f1b;
+--g0:#161b17;--g1:#123d24;--g2:#16653a;--g3:#22a356;--g4:#4ade80;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
 --bg:#0b0d0c;--surface:#121513;--fg:#e8ece6;--muted:#8d968c;--line:#232a25;
---accent:#4ade80;--accent-2:#fb923c;--accent-3:#a5b4fc;--chip:#1a1f1b;}}
+--accent:#4ade80;--accent-2:#fb923c;--accent-3:#a5b4fc;--chip:#1a1f1b;
+--g0:#161b17;--g1:#123d24;--g2:#16653a;--g3:#22a356;--g4:#4ade80;}}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
+::selection{background:var(--accent);color:var(--bg)}
 .mono{font-family:var(--mono)}
-.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.wrap{max-width:780px;margin:0 auto;padding:0 20px}
+kbd{font-family:var(--mono);font-size:.72rem;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--surface)}
+
+/* progress = git push */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-3));z-index:30}
 
 /* top bar */
-.bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
-.branch{font-family:var(--mono);font-size:.85rem;display:flex;align-items:center;gap:8px;white-space:nowrap}
-.branch .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
-.bar nav{display:flex;gap:4px;align-items:center}
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.branch{font-family:var(--mono);font-size:.85rem;display:flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none}
+.branch .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 0%,transparent)}}
+.bar nav{display:flex;gap:2px;align-items:center}
 .bar nav a{font-family:var(--mono);font-size:.8rem;text-decoration:none;color:var(--muted);padding:6px 10px;border-radius:6px}
-.bar nav a:hover{color:var(--fg);background:var(--chip)}
-.theme{background:none;border:1px solid var(--line);color:var(--fg);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:.95rem}
-@media (max-width:560px){.bar nav a{display:none}}
+.bar nav a:hover,.bar nav a.on{color:var(--fg);background:var(--chip)}
+.iconbtn{background:var(--surface);border:1px solid var(--line);color:var(--fg);height:34px;min-width:34px;padding:0 10px;border-radius:8px;cursor:pointer;font-family:var(--mono);font-size:.78rem;display:inline-flex;align-items:center;gap:6px}
+.iconbtn:hover{border-color:var(--accent)}
+@media (max-width:640px){.bar nav a{display:none}.cmdk-hint{display:none}}
 
 /* hero */
-.hero{padding:72px 0 40px}
-.prompt{font-family:var(--mono);font-size:.9rem;color:var(--muted)}
+.hero{padding:64px 0 32px}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.75rem;border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:999px;color:var(--muted)}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.prompt{font-family:var(--mono);font-size:.9rem;color:var(--muted);margin-top:22px;min-height:1.6em}
 .prompt b{color:var(--accent);font-weight:600}
 .typed{color:var(--fg)}
 .caret{display:inline-block;width:.6em;height:1.1em;background:var(--accent);vertical-align:-.2em;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.hero h1{font-size:clamp(2.4rem,9vw,4.6rem);line-height:1;letter-spacing:-.035em;margin-top:20px;font-weight:700}
+.hero h1{font-size:clamp(2.6rem,10vw,5rem);line-height:.95;letter-spacing:-.04em;margin-top:14px;font-weight:700}
 .hero h1 span{color:var(--accent)}
-.hero .lead{font-size:clamp(1.05rem,3.5vw,1.25rem);color:var(--muted);margin-top:20px;max-width:56ch}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:36px}
-.stats div{background:var(--surface);padding:16px}
-.stats strong{display:block;font-family:var(--mono);font-size:1.4rem}
-.stats small{color:var(--muted);font-size:.8rem}
-.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-.btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:12px 18px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.hero .lead{font-size:clamp(1.05rem,3.6vw,1.25rem);color:var(--muted);margin-top:20px;max-width:56ch}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:12px 18px;border-radius:10px;border:1px solid var(--line);background:var(--surface);transition:transform .15s,border-color .15s}
 .btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.btn:hover{transform:translateY(-1px)}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+
+/* contribution graph */
+.graph{margin-top:40px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.graph-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:var(--mono);font-size:.75rem;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+.graph-head strong{color:var(--fg);font-size:.85rem}
+.cells{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;overflow:hidden}
+.cells i{display:block;aspect-ratio:1;border-radius:2px;background:var(--g0);transform:scale(0);transition:transform .4s}
+.cells.go i{transform:scale(1)}
+.legend{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:10px;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
 
 /* section heading */
-.sec{padding:48px 0}
-.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:28px}
-.sec-head h2{font-size:1.5rem;letter-spacing:-.02em}
+.sec{padding:52px 0}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+.sec-head h2{font-size:1.55rem;letter-spacing:-.02em}
 .sec-head .mono{color:var(--muted);font-size:.8rem}
+.reveal{opacity:0;transform:translateY(16px);transition:.6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* README */
+.readme{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.filebar{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.filebar .dots{display:flex;gap:6px;margin-right:6px}
+.filebar .dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.readme-body{padding:20px}
+.readme-body h3{font-size:1.25rem;letter-spacing:-.01em}
+.readme-body h3::before{content:"# ";color:var(--muted);font-family:var(--mono)}
+.readme-body p{color:var(--muted);margin-top:10px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:18px}
+.fact{border:1px dashed var(--line);border-radius:10px;padding:12px}
+.fact small{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.fact strong{font-size:.98rem}
+
+/* filter chips */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.chip{font-family:var(--mono);font-size:.78rem;border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer}
+.chip.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 
 /* git log timeline */
 .log{position:relative;padding-left:28px}
 .log::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),var(--accent-3) 60%,var(--accent-2))}
-.commit{position:relative;margin-bottom:22px;opacity:0;transform:translateY(14px);transition:.6s ease}
-.commit.in{opacity:1;transform:none}
-.commit::before{content:"";position:absolute;left:-26px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+.commit{position:relative;margin-bottom:20px}
+.commit[hidden]{display:none}
+.commit::before{content:"";position:absolute;left:-26px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);z-index:1}
 .commit.merge::before{border-color:var(--accent-3);background:var(--accent-3)}
 .commit.tag::before{border-color:var(--accent-2)}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:color-mix(in srgb,var(--accent) 50%,var(--line));transform:translateX(3px)}
 .meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
 .hash{color:var(--accent-2)}
 .label{padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--fg)}
 .label.feat{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
 .label.wip{background:color-mix(in srgb,var(--accent-2) 18%,transparent);color:var(--accent-2)}
 .label.edu{background:color-mix(in srgb,var(--accent-3) 18%,transparent);color:var(--accent-3)}
-.card h3{font-size:1.15rem;margin-top:10px;letter-spacing:-.01em}
+.card h3{font-size:1.15rem;margin-top:10px;letter-spacing:-.01em;line-height:1.35}
 .card p{color:var(--muted);margin-top:6px;font-size:.98rem}
+.thumb{margin-top:14px;aspect-ratio:16/8;border-radius:10px;border:1px solid var(--line);background:
+repeating-linear-gradient(135deg,var(--chip) 0 10px,transparent 10px 20px);display:grid;place-items:center;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
 .stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .stack span{font-family:var(--mono);font-size:.72rem;border:1px solid var(--line);padding:3px 8px;border-radius:6px}
-.card .links{display:flex;gap:14px;margin-top:14px;font-family:var(--mono);font-size:.8rem}
+.card .links{display:flex;gap:16px;margin-top:14px;font-family:var(--mono);font-size:.8rem}
 .card .links a{color:var(--accent);text-decoration:none}
 .card .links a:hover{text-decoration:underline}
 
 /* skills as diff */
+.diffs{display:grid;gap:14px}
 .diff{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-family:var(--mono);font-size:.85rem}
-.diff header{padding:10px 16px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between}
-.diff ul{list-style:none;padding:8px 0}
-.diff li{display:flex;gap:12px;padding:4px 16px;align-items:center}
+.diff header{padding:10px 16px;border-bottom:1px solid var(--line);color:var(--muted);font-size:.78rem;display:flex;justify-content:space-between;gap:8px}
+.diff ul{list-style:none;padding:6px 0}
+.diff li{display:flex;gap:12px;padding:5px 16px;align-items:center}
 .diff li .sign{width:1ch;font-weight:700}
-.diff li.add{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.diff li.add{background:color-mix(in srgb,var(--accent) 8%,transparent)}
 .diff li.add .sign{color:var(--accent)}
-.diff li.learn{background:color-mix(in srgb,var(--accent-2) 9%,transparent)}
+.diff li.learn{background:color-mix(in srgb,var(--accent-2) 8%,transparent)}
 .diff li.learn .sign{color:var(--accent-2)}
-.diff li .name{flex:1}
-.meter{width:min(120px,30vw);height:6px;background:var(--chip);border-radius:999px;overflow:hidden}
+.diff li .name{flex:1;min-width:0}
+.meter{width:min(120px,28vw);height:6px;background:var(--chip);border-radius:999px;overflow:hidden;flex:none}
 .meter i{display:block;height:100%;background:currentColor;width:0;transition:width 1.2s ease}
 .diff li.add .meter{color:var(--accent)}.diff li.learn .meter{color:var(--accent-2)}
 
+/* tags / certificates */
+.tags{display:grid;gap:10px}
+.tagrow{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tagrow .v{font-family:var(--mono);font-size:.75rem;color:var(--accent-2);border:1px solid color-mix(in srgb,var(--accent-2) 40%,transparent);border-radius:6px;padding:2px 8px;flex:none}
+.tagrow div{flex:1;min-width:0}
+.tagrow strong{display:block;font-size:.98rem}
+.tagrow small{color:var(--muted);font-family:var(--mono);font-size:.75rem}
+
 /* contact */
 .contact{background:var(--fg);color:var(--bg);border-radius:20px;padding:32px 24px;position:relative;overflow:hidden}
-.contact h2{font-size:clamp(1.6rem,6vw,2.4rem);letter-spacing:-.03em;line-height:1.1}
-.contact p{opacity:.7;margin-top:10px;max-width:46ch}
-.contact .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.contact h2{font-size:clamp(1.7rem,7vw,2.6rem);letter-spacing:-.03em;line-height:1.05}
+.contact p{opacity:.72;margin-top:12px;max-width:46ch}
+.contact .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative;z-index:1}
 .contact a{font-family:var(--mono);font-size:.85rem;color:var(--bg);text-decoration:none;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);padding:10px 16px;border-radius:10px}
 .contact a:hover{background:color-mix(in srgb,var(--bg) 12%,transparent)}
-.contact pre{position:absolute;right:-10px;bottom:-14px;font-family:var(--mono);font-size:5.5rem;opacity:.07;pointer-events:none;line-height:1}
+.contact pre{position:absolute;right:-6px;bottom:-16px;font-family:var(--mono);font-size:6rem;opacity:.07;pointer-events:none;line-height:1}
+.copy{cursor:pointer}
 
-footer{padding:40px 0 56px;font-family:var(--mono);font-size:.75rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer{padding:40px 0 120px;font-family:var(--mono);font-size:.75rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* mobile dock */
+.dock{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:25;display:none;gap:4px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:16px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.dock a,.dock button{font-family:var(--mono);font-size:.72rem;text-decoration:none;color:var(--muted);padding:9px 12px;border-radius:11px;border:0;background:none;cursor:pointer}
+.dock a.on{background:var(--fg);color:var(--bg)}
+.dock button{color:var(--accent)}
+@media (max-width:640px){.dock{display:flex}}
+
+/* command palette */
+.pal{position:fixed;inset:0;z-index:40;display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 16px;background:rgba(0,0,0,.45)}
+.pal.open{display:flex}
+.pal-box{width:100%;max-width:520px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.pal-in{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.9rem}
+.pal-in b{color:var(--accent)}
+.pal-in input{flex:1;background:none;border:0;outline:0;color:var(--fg);font:inherit;min-width:0}
+.pal ul{list-style:none;max-height:50vh;overflow:auto;padding:6px}
+.pal li{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:8px;font-family:var(--mono);font-size:.85rem;cursor:pointer}
+.pal li small{color:var(--muted)}
+.pal li.sel{background:var(--chip)}
+.pal .out{padding:10px 16px 14px;font-family:var(--mono);font-size:.8rem;color:var(--muted);border-top:1px solid var(--line)}
+
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);opacity:0;background:var(--fg);color:var(--bg);font-family:var(--mono);font-size:.8rem;padding:8px 14px;border-radius:8px;transition:.3s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
 
 @media (max-width:480px){
-.hero{padding:48px 0 24px}
-.stats strong{font-size:1.15rem}
-.stats div{padding:12px}
-.card{padding:16px 14px 14px}
+.hero{padding:44px 0 20px}
+.card{padding:16px 14px}
 .log{padding-left:22px}
 .commit::before{left:-21px}
 .log::before{left:4px}
 .diff{font-size:.8rem}
+.diff li{padding:5px 12px;gap:10px}
+.graph{padding:12px}
+.cells{gap:2px}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.commit{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.cells i{transform:none}}
 </style>
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
 <div class="bar">
 <div class="wrap">
-<div class="branch"><span class="dot"></span>irwanda.dev <span style="color:var(--muted)">/ main</span></div>
+<a class="branch" href="#top"><span class="dot"></span>irwanda.dev <span style="color:var(--muted)">/ main</span></a>
 <nav>
+<a href="#readme">readme</a>
 <a href="#log">log</a>
 <a href="#skills">skills</a>
+<a href="#tags">tags</a>
 <a href="#contact">contact</a>
-<button class="theme" id="theme" aria-label="Ganti tema">◐</button>
+<button class="iconbtn cmdk-hint" id="openPal" aria-label="Buka command palette"><kbd>/</kbd> cmd</button>
+<button class="iconbtn" id="theme" aria-label="Ganti tema">◐</button>
 </nav>
 </div>
 </div>
 
-<main class="wrap">
+<main class="wrap" id="top">
 
 <section class="hero">
+<span class="status"><i></i>open to: magang &amp; kolaborasi</span>
 <p class="prompt"><b>irwanda@dev</b>:~$ <span class="typed" id="typed"></span><span class="caret"></span></p>
 <h1>Irwanda<br>Syafriadi<span>.</span></h1>
 <p class="lead">Mahasiswa D3 Sistem Informasi yang suka membangun aplikasi web. [Ganti dengan 1–2 kalimat tentang dirimu: minat, tujuan karier, atau hal yang sedang kamu pelajari.]</p>
-<div class="stats">
-<div><strong>D3</strong><small>Sistem Informasi</small></div>
-<div><strong>[n]</strong><small>project selesai</small></div>
-<div><strong>[tahun]</strong><small>angkatan</small></div>
-</div>
 <div class="cta">
 <a class="btn primary" href="#log">git log --oneline →</a>
-<a class="btn" href="https://github.com/irwandasyafriadi" target="_blank" rel="noopener">GitHub</a>
+<a class="btn" href="https://github.com/irwandasyafriadi" target="_blank" rel="noopener">GitHub ↗</a>
+<a class="btn" href="#">[CV.pdf] ↓</a>
+</div>
+
+<div class="graph reveal" aria-label="Grafik aktivitas belajar (dekoratif)">
+<div class="graph-head"><strong>Aktivitas belajar</strong><span>setahun terakhir</span></div>
+<div class="cells" id="cells"></div>
+<div class="legend">less <i style="background:var(--g0)"></i><i style="background:var(--g1)"></i><i style="background:var(--g2)"></i><i style="background:var(--g3)"></i><i style="background:var(--g4)"></i> more</div>
+</div>
+</section>
+
+<section class="sec reveal" id="readme">
+<div class="sec-head"><h2>Tentang</h2><span class="mono">cat README.md</span></div>
+<div class="readme">
+<div class="filebar"><span class="dots"><i></i><i></i><i></i></span>README.md</div>
+<div class="readme-body">
+<h3>Halo, saya Irwanda</h3>
+<p>[Ceritakan dirimu dalam 2–3 kalimat: kenapa tertarik ke dunia sistem informasi, bidang yang paling kamu sukai (misalnya web, database, atau UI/UX), dan apa yang ingin kamu capai.]</p>
+<div class="facts">
+<div class="fact"><small>Pendidikan</small><strong>D3 Sistem Informasi</strong></div>
+<div class="fact"><small>Kampus</small><strong>[nama kampus]</strong></div>
+<div class="fact"><small>Fokus</small><strong>[web development]</strong></div>
+<div class="fact"><small>Lokasi</small><strong>[kota]</strong></div>
+</div>
+</div>
 </div>
 </section>
 
 <section class="sec" id="log">
-<div class="sec-head"><h2>Commit history</h2><span class="mono">perjalanan belajar &amp; project</span></div>
+<div class="sec-head"><h2>Commit history</h2><span class="mono">project &amp; perjalanan belajar</span></div>
+<div class="chips" role="tablist">
+<button class="chip on" data-f="all">--all</button>
+<button class="chip" data-f="project">project</button>
+<button class="chip" data-f="edu">edu</button>
+</div>
 <div class="log">
 
-<article class="commit">
+<article class="commit reveal" data-k="project">
 <div class="card">
 <div class="meta"><span class="hash">a1f9c3e</span><span class="label wip">WIP</span><span>HEAD → main</span></div>
 <h3>feat: myUKOM — platform belajar persiapan UKOM</h3>
 <p>Website untuk membantu belajar dan latihan soal UKOM. [Jelaskan masalah yang diselesaikan dan fitur utamanya.]</p>
+<div class="thumb">[screenshot myUKOM]</div>
 <div class="stack"><span>[stack]</span><span>[database]</span><span>[framework]</span></div>
 <div class="links"><a href="#">demo ↗</a><a href="#">source ↗</a></div>
 </div>
 </article>
 
-<article class="commit merge">
+<article class="commit merge reveal" data-k="edu">
 <div class="card">
 <div class="meta"><span class="hash">7be20d4</span><span class="label edu">EDU</span><span>merge branch 'tugas-akhir'</span></div>
 <h3>docs: Tugas Akhir — [judul TA]</h3>
@@ -181,9 +291,19 @@ footer{padding:40px 0 56px;font-family:var(--mono);font-size:.75rem;color:var(--
 </div>
 </article>
 
-<article class="commit">
+<article class="commit reveal" data-k="project">
 <div class="card">
 <div class="meta"><span class="hash">3c5e8a1</span><span class="label feat">FEAT</span></div>
+<h3>feat: irwanda.dev — website portofolio ini</h3>
+<p>Portofolio pribadi dengan konsep commit history, di-hosting di GitHub Pages dengan domain sendiri.</p>
+<div class="stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>GitHub Pages</span></div>
+<div class="links"><a href="https://github.com/irwandasyafriadi/irwandasyafriadi.github.io" target="_blank" rel="noopener">source ↗</a></div>
+</div>
+</article>
+
+<article class="commit reveal" data-k="project">
+<div class="card">
+<div class="meta"><span class="hash">9d4b7f0</span><span class="label feat">FEAT</span></div>
 <h3>feat: [nama project lain]</h3>
 <p>[Deskripsi singkat project: apa yang dibuat, peranmu, dan hasilnya.]</p>
 <div class="stack"><span>[stack]</span></div>
@@ -191,7 +311,7 @@ footer{padding:40px 0 56px;font-family:var(--mono);font-size:.75rem;color:var(--
 </div>
 </article>
 
-<article class="commit tag">
+<article class="commit tag reveal" data-k="edu">
 <div class="card">
 <div class="meta"><span class="hash">0d1e2f3</span><span class="label">tag: v1.0</span></div>
 <h3>init: mulai kuliah D3 Sistem Informasi</h3>
@@ -204,24 +324,50 @@ footer{padding:40px 0 56px;font-family:var(--mono);font-size:.75rem;color:var(--
 
 <section class="sec" id="skills">
 <div class="sec-head"><h2>Skills</h2><span class="mono">git diff --stat</span></div>
-<div class="diff">
-<header><span>skills.md</span><span>+ dikuasai · ~ sedang dipelajari</span></header>
+<div class="diffs">
+<div class="diff reveal">
+<header><span>frontend.md</span><span>+ dikuasai · ~ dipelajari</span></header>
 <ul>
 <li class="add"><span class="sign">+</span><span class="name">HTML &amp; CSS</span><span class="meter"><i data-w="80"></i></span></li>
 <li class="add"><span class="sign">+</span><span class="name">JavaScript</span><span class="meter"><i data-w="65"></i></span></li>
-<li class="add"><span class="sign">+</span><span class="name">Git &amp; GitHub</span><span class="meter"><i data-w="70"></i></span></li>
-<li class="add"><span class="sign">+</span><span class="name">[Database]</span><span class="meter"><i data-w="60"></i></span></li>
-<li class="learn"><span class="sign">~</span><span class="name">[Skill yang sedang dipelajari]</span><span class="meter"><i data-w="35"></i></span></li>
+<li class="learn"><span class="sign">~</span><span class="name">[Framework frontend]</span><span class="meter"><i data-w="35"></i></span></li>
 </ul>
+</div>
+<div class="diff reveal">
+<header><span>backend.md</span><span>database &amp; server</span></header>
+<ul>
+<li class="add"><span class="sign">+</span><span class="name">[Bahasa backend]</span><span class="meter"><i data-w="60"></i></span></li>
+<li class="add"><span class="sign">+</span><span class="name">[Database]</span><span class="meter"><i data-w="60"></i></span></li>
+<li class="learn"><span class="sign">~</span><span class="name">[Skill yang sedang dipelajari]</span><span class="meter"><i data-w="30"></i></span></li>
+</ul>
+</div>
+<div class="diff reveal">
+<header><span>tools.md</span><span>workflow</span></header>
+<ul>
+<li class="add"><span class="sign">+</span><span class="name">Git &amp; GitHub</span><span class="meter"><i data-w="70"></i></span></li>
+<li class="add"><span class="sign">+</span><span class="name">VS Code &amp; Copilot</span><span class="meter"><i data-w="70"></i></span></li>
+<li class="add"><span class="sign">+</span><span class="name">[Figma / tools desain]</span><span class="meter"><i data-w="50"></i></span></li>
+</ul>
+</div>
 </div>
 </section>
 
-<section class="sec" id="contact">
+<section class="sec" id="tags">
+<div class="sec-head"><h2>Sertifikat &amp; pencapaian</h2><span class="mono">git tag -l</span></div>
+<div class="tags">
+<div class="tagrow reveal"><span class="v">v2.0</span><div><strong>[Nama sertifikat / pencapaian]</strong><small>[penerbit] · [tahun]</small></div></div>
+<div class="tagrow reveal"><span class="v">v1.1</span><div><strong>[Lomba / organisasi / kepanitiaan]</strong><small>[peran] · [tahun]</small></div></div>
+<div class="tagrow reveal"><span class="v">v1.0</span><div><strong>GitHub Student Developer Pack</strong><small>GitHub Education · 2026</small></div></div>
+</div>
+</section>
+
+<section class="sec reveal" id="contact">
 <div class="contact">
 <h2>git push origin<br>kolaborasi</h2>
 <p>Terbuka untuk magang, project, atau sekadar diskusi soal web dan sistem informasi.</p>
 <div class="row">
 <a href="mailto:[email-kamu]">email</a>
+<a class="copy" data-copy="[email-kamu]" href="#">salin email</a>
 <a href="https://github.com/irwandasyafriadi" target="_blank" rel="noopener">github</a>
 <a href="#">[linkedin]</a>
 </div>
@@ -231,39 +377,110 @@ footer{padding:40px 0 56px;font-family:var(--mono);font-size:.75rem;color:var(--
 
 <footer>
 <span>© <span id="yr">2026</span> Irwanda Syafriadi</span>
-<span>build: passing ✓</span>
+<span>tekan <kbd>/</kbd> untuk terminal · build: passing ✓</span>
 </footer>
 
 </main>
 
+<nav class="dock" aria-label="Navigasi mobile">
+<a href="#readme">readme</a>
+<a href="#log">log</a>
+<a href="#skills">skills</a>
+<a href="#contact">contact</a>
+<button id="openPal2" aria-label="Buka terminal">&gt;_</button>
+</nav>
+
+<div class="pal" id="pal" role="dialog" aria-label="Command palette">
+<div class="pal-box">
+<div class="pal-in"><b>$</b><input id="palIn" placeholder="ketik perintah… (help)" autocomplete="off" spellcheck="false"></div>
+<ul id="palList"></ul>
+<div class="out" id="palOut">↑↓ pilih · enter jalankan · esc tutup</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
 (function(){
-var root=document.documentElement,btn=document.getElementById('theme');
-try{var t=localStorage.getItem('theme');if(t)root.setAttribute('data-theme',t);}catch(e){}
-btn.addEventListener('click',function(){
-var dark=root.getAttribute('data-theme')==='dark'||(!root.getAttribute('data-theme')&&matchMedia('(prefers-color-scheme: dark)').matches);
-var next=dark?'light':'dark';root.setAttribute('data-theme',next);
-try{localStorage.setItem('theme',next);}catch(e){}
-});
+var root=document.documentElement;
+function toast(t){var el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('show')},1800);}
+
+/* theme */
+try{var saved=localStorage.getItem('theme');if(saved)root.setAttribute('data-theme',saved);}catch(e){}
+function isDark(){var a=root.getAttribute('data-theme');return a?a==='dark':matchMedia('(prefers-color-scheme: dark)').matches;}
+function toggleTheme(){var n=isDark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('theme',n);}catch(e){}toast('theme → '+n);}
+document.getElementById('theme').addEventListener('click',toggleTheme);
 document.getElementById('yr').textContent=new Date().getFullYear();
 
-var cmds=['whoami','git log --oneline','cat skills.md','npm run build'],ci=0,ch=0,del=false,el=document.getElementById('typed');
-(function type(){
-var w=cmds[ci];
-el.textContent=w.slice(0,ch);
-if(!del&&ch<w.length){ch++;setTimeout(type,90);}
-else if(!del){del=true;setTimeout(type,1600);}
-else if(ch>0){ch--;setTimeout(type,40);}
-else{del=false;ci=(ci+1)%cmds.length;setTimeout(type,300);}
-})();
+/* typing prompt */
+var cmds=['whoami','git log --oneline','cat README.md','npm run build'],ci=0,ch=0,del=false,el=document.getElementById('typed');
+(function type(){var w=cmds[ci];el.textContent=w.slice(0,ch);
+if(!del&&ch<w.length){ch++;setTimeout(type,90);}else if(!del){del=true;setTimeout(type,1600);}
+else if(ch>0){ch--;setTimeout(type,40);}else{del=false;ci=(ci+1)%cmds.length;setTimeout(type,300);}})();
 
-var io=new IntersectionObserver(function(es){es.forEach(function(e){
-if(!e.isIntersecting)return;
+/* contribution graph (dekoratif, pola tetap) */
+var cells=document.getElementById('cells'),weeks=innerWidth<480?20:36,seed=7;
+function rnd(){seed=(seed*9301+49297)%233280;return seed/233280;}
+var lv=['var(--g0)','var(--g1)','var(--g2)','var(--g3)','var(--g4)'],html='';
+for(var w=0;w<weeks;w++)for(var d=0;d<7;d++){var r=rnd()*(0.4+w/weeks);var l=r<.25?0:r<.45?1:r<.65?2:r<.8?3:4;
+html+='<i style="background:'+lv[l]+';transition-delay:'+(w*14)+'ms"></i>';}
+cells.innerHTML=html;
+
+/* reveal on scroll */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;
 e.target.classList.add('in');
 e.target.querySelectorAll('.meter i').forEach(function(m){m.style.width=m.dataset.w+'%';});
-io.unobserve(e.target);
-});},{threshold:.15});
-document.querySelectorAll('.commit,.diff').forEach(function(n){io.observe(n);});
+var c=e.target.querySelector('.cells');if(c)c.classList.add('go');
+io.unobserve(e.target);});},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+
+/* filter chips */
+document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
+document.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x===b);});
+var f=b.dataset.f;document.querySelectorAll('.commit').forEach(function(c){c.hidden=!(f==='all'||c.dataset.k===f);if(!c.hidden)c.classList.add('in');});});});
+
+/* progress + active nav */
+var prog=document.getElementById('progress'),secs=['readme','log','skills','tags','contact'];
+function onScroll(){var h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+var cur='';secs.forEach(function(id){var s=document.getElementById(id);if(s&&s.getBoundingClientRect().top<innerHeight*.4)cur=id;});
+document.querySelectorAll('.bar nav a,.dock a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur);});}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* copy email */
+document.querySelectorAll('.copy').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();
+var t=a.dataset.copy;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('email disalin ✓');},function(){toast(t);});});});
+
+/* command palette */
+var pal=document.getElementById('pal'),pin=document.getElementById('palIn'),plist=document.getElementById('palList'),pout=document.getElementById('palOut'),sel=0,shown=[];
+function go(id){return function(){close();document.getElementById(id).scrollIntoView();};}
+var C=[
+{c:'cd readme',d:'tentang saya',f:go('readme')},
+{c:'git log',d:'lihat project',f:go('log')},
+{c:'cat skills',d:'daftar skill',f:go('skills')},
+{c:'git tag',d:'sertifikat',f:go('tags')},
+{c:'contact',d:'hubungi saya',f:go('contact')},
+{c:'open github',d:'profil GitHub',f:function(){window.open('https://github.com/irwandasyafriadi','_blank');}},
+{c:'theme',d:'ganti terang/gelap',f:function(){toggleTheme();}},
+{c:'sudo hire irwanda',d:'🤝',f:function(){pout.textContent='[sudo] permission granted. Mengarahkan ke kontak…';setTimeout(go('contact'),700);}},
+{c:'help',d:'semua perintah',f:function(){pout.textContent=C.map(function(x){return x.c;}).join(' · ');}}
+];
+function render(){var q=pin.value.trim().toLowerCase();shown=C.filter(function(x){return x.c.indexOf(q)>-1||x.d.toLowerCase().indexOf(q)>-1;});
+if(sel>=shown.length)sel=0;
+plist.innerHTML=shown.map(function(x,i){return '<li class="'+(i===sel?'sel':'')+'" data-i="'+i+'"><span>'+x.c+'</span><small>'+x.d+'</small></li>';}).join('')||'<li><small>command not found: '+q.replace(/</g,'&lt;')+'</small></li>';}
+function open(){pal.classList.add('open');pin.value='';sel=0;render();pout.textContent='↑↓ pilih · enter jalankan · esc tutup';setTimeout(function(){pin.focus();},10);}
+function close(){pal.classList.remove('open');}
+pin.addEventListener('input',function(){sel=0;render();});
+pin.addEventListener('keydown',function(e){
+if(e.key==='ArrowDown'){sel=Math.min(sel+1,shown.length-1);render();e.preventDefault();}
+else if(e.key==='ArrowUp'){sel=Math.max(sel-1,0);render();e.preventDefault();}
+else if(e.key==='Enter'&&shown[sel]){shown[sel].f();}
+else if(e.key==='Escape'){close();}});
+plist.addEventListener('click',function(e){var li=e.target.closest('li[data-i]');if(li)shown[+li.dataset.i].f();});
+pal.addEventListener('click',function(e){if(e.target===pal)close();});
+document.getElementById('openPal').addEventListener('click',open);
+document.getElementById('openPal2').addEventListener('click',open);
+addEventListener('keydown',function(e){var t=e.target.tagName;
+if((e.key==='/'||(e.key==='k'&&(e.metaKey||e.ctrlKey)))&&t!=='INPUT'&&t!=='TEXTAREA'){e.preventDefault();open();}});
 })();
 </script>
 </body>
