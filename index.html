@@ -9,6 +9,7 @@
 <meta property="og:title" content="Irwanda Syafriadi — git log">
 <meta property="og:description" content="Portofolio mahasiswa D3 Sistem Informasi.">
 <meta property="og:url" content="https://irwanda.dev">
+<meta property="og:image" content="https://irwanda.dev/assets/image.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0d0c'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%234ade80'%3Ei.%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,6 +59,15 @@ kbd{font-family:var(--mono);font-size:.72rem;border:1px solid var(--line);border
 .hero{padding:64px 0 32px}
 .status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.75rem;border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:999px;color:var(--muted)}
 .status i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.who{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.avatar{position:relative;width:88px;height:88px;flex:none}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;border:1px solid var(--line);background:var(--chip)}
+.avatar::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px dashed color-mix(in srgb,var(--accent) 55%,transparent);animation:spin 18s linear infinite;pointer-events:none}
+.avatar b{position:absolute;right:2px;bottom:2px;width:20px;height:20px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.who-meta{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.handle{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+@media (min-width:720px){.avatar{width:112px;height:112px}}
 .prompt{font-family:var(--mono);font-size:.9rem;color:var(--muted);margin-top:22px;min-height:1.6em}
 .prompt b{color:var(--accent);font-weight:600}
 .typed{color:var(--fg)}
@@ -271,7 +281,13 @@ footer{padding:40px 0 120px;font-family:var(--mono);font-size:.75rem;color:var(-
 <main class="wrap" id="top">
 
 <section class="hero">
+<div class="who">
+<div class="avatar"><img src="assets/image.jpg" alt="Foto Irwanda Syafriadi" width="112" height="112"><b aria-hidden="true"></b></div>
+<div class="who-meta">
+<span class="handle">@irwandasyafriadi</span>
 <span class="status"><i></i>open to: magang &amp; kolaborasi</span>
+</div>
+</div>
 <p class="prompt"><b>irwanda@dev</b>:~$ <span class="typed" id="typed"></span><span class="caret"></span></p>
 <h1>Irwanda<br>Syafriadi<span>.</span></h1>
 <p class="lead">Mahasiswa D3 Sistem Informasi yang suka membangun aplikasi web. [Ganti dengan 1–2 kalimat tentang dirimu: minat, tujuan karier, atau hal yang sedang kamu pelajari.]</p>
